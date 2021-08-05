@@ -1,9 +1,10 @@
 import "./App.css";
+import StocksListing from "./views/StocksListing";
 
 function App() {
   return (
     <div>
-      <h3>stock price simulator</h3>
+      <StocksListing />
     </div>
   );
 }
