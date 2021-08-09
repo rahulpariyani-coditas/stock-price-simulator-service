@@ -1,0 +1,20 @@
+.labelWrapper {
+  width: 100%;
+  background-color: #d9e8f5;
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0px;
+  padding: 8px 0px;
+  border-radius: 8px;
+}
+
+.title,
+.children {
+  font-weight: 600;
+  margin: 0px 18px;
+  cursor: default;
+}
+
+.children {
+  color: blue;
+}

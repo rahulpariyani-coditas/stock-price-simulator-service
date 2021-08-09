@@ -1,3 +1,5 @@
+const moment = require("moment");
+
 export const metadata = {
   table: {
     colDefs: [
@@ -18,12 +20,16 @@ export const metadata = {
         name: "time",
       },
     ],
-    colFields: [
-      ["AALP", " 120", "-", "one second ago"],
-      ["GOOGL", " 2550", "100", "now"],
-      ["XYZ", " 2550", "-", "now"],
-      ["aBC", " 2550", "189", "now"],
-      ["MS", " 2550", "-", "now"],
-    ],
+  },
+
+  getTableFormatData: (data) => {
+    return data.map((ticker) => {
+      return {
+        name: ticker[0],
+        price: ticker[1],
+        quantity: ticker[2],
+        time: moment(ticker[3], "YYYY-MM-DD HH:mm:ss").fromNow(),
+      };
+    });
   },
 };
