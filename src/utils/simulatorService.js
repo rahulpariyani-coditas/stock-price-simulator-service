@@ -30,6 +30,5 @@ export const simulatorService = (props = initialArray) => {
     ticker[3] = moment().format("YYYY-MM-DD HH:mm:ss");
     return ticker;
   });
-  console.log("newTickerArray :", newTickerArray);
   return newTickerArray;
 };

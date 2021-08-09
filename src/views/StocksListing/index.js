@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import CustomizedTables from "../../components/CustomizedTables";
+import CustomTable from "../../components/CustomTable";
 import { metadata } from "./constants";
 import "./StocksListing.css";
 import { simulatorService } from "../../utils/simulatorService";
-import CustomModal from "../../components/CustomModal";
+import BuyForm from "../../components/BuyForm";
 import CustomSnackbar from "../../components/CustomSnackbar";
 
 const StocksListing = () => {
-  const [prevTickersArray, setPrevTickersArray] = useState([]);
   const [tickersArray, setTickersArray] = useState([]);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [selectedTicker, setSelectedTicker] = useState(null);
@@ -19,7 +18,6 @@ const StocksListing = () => {
 
   useEffect(() => {
     setInterval(() => {
-      setPrevTickersArray(tickersArray);
       const newTickerArray = simulatorService(tickersArray);
       const tableFormatData = metadata.getTableFormatData(newTickerArray);
       setTickersArray(tableFormatData);
@@ -41,15 +39,14 @@ const StocksListing = () => {
 
   const getSelectedCurrentPrice = () => {
     if (selectedTicker) {
-      let tempp = tickersArray.find(
+      let filteredPrice = tickersArray.find(
         (ticker) => ticker.name === selectedTicker.name
       );
-      return tempp;
+      return filteredPrice;
     }
   };
 
   const onBuyClick = (props) => {
-    console.log("props onBuyClick :", props);
     if (selectedTicker.price > getSelectedCurrentPrice().price) {
       setShowSnackbar({
         show: true,
@@ -84,14 +81,14 @@ const StocksListing = () => {
     <>
       <h1 align="center">Stocks Listing Screen</h1>
       <section className="tableWrapper">
-        <CustomizedTables
+        <CustomTable
           {...metadata.table}
           colFields={tickersArray}
           onTableRowClick={onTableRowClick}
         />
       </section>
       <CustomSnackbar {...showSnackbar} onClose={snackbarClose} />
-      <CustomModal
+      <BuyForm
         open={showOrderForm}
         handleClose={modalHandleClose}
         onBuyClick={onBuyClick}

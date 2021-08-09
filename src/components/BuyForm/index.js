@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Modal, Backdrop, Fade, Button, TextField } from "@material-ui/core";
+import Label from "../Label";
+import CustomSnackbar from "../CustomSnackbar";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -19,9 +21,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomModal = (props) => {
-  const [quantity, setQuantity] = useState("0");
+const BuyForm = (props) => {
+  const [quantity, setQuantity] = useState(null);
   const classes = useStyles();
+  const [showSnackbar, setShowSnackbar] = useState({
+    show: false,
+    type: "",
+    message: "",
+  });
+
+  const snackbarClose = () =>
+    setShowSnackbar({
+      show: false,
+      type: "",
+      message: "",
+    });
+
+  const buyHandler = () => {
+    if (quantity > 0) {
+      props.onBuyClick({
+        ...props.selectedTicker,
+        quantity: quantity,
+      });
+    } else {
+      setShowSnackbar({
+        show: true,
+        type: "error",
+        message: "Please Enter Quantity",
+      });
+    }
+  };
+  const quantityChangeHandler = (e) => setQuantity(e.target.value);
 
   return (
     <>
@@ -39,42 +69,38 @@ const CustomModal = (props) => {
       >
         <Fade in={props.open}>
           <div className={classes.paper}>
-            <h2 id="transition-modal-title">Order Form</h2>
+            <h2 id="transition-modal-title">Order Form: </h2>
             <small>{props.selectedCurrentPrice?.price} </small>
-            <p id="transition-modal-description">
-              Ticker: {props.selectedTicker?.name}
-            </p>
-            <p id="transition-modal-description">
-              Price: {props.selectedTicker?.price}
-            </p>
-            <p id="transition-modal-description">
-              Quantity:{" "}
+            <Label title="Ticker :"> {props.selectedTicker?.name}</Label>
+            <Label title="Price :">
+              {`${props.selectedTicker?.price} USD`}
+            </Label>
+            <Label title="Quantity :">
               {
                 <TextField
+                  placeholder="Enter Quantity"
                   variant="outlined"
                   size="small"
-                  onChange={(e) => setQuantity(e.target.value)}
+                  type="number"
+                  onChange={quantityChangeHandler}
                 />
               }
-            </p>
+            </Label>
             <Button
               variant="contained"
               color="primary"
               fullWidth
-              onClick={() =>
-                props.onBuyClick({
-                  ...props.selectedTicker,
-                  quantity: quantity,
-                })
-              }
+              onClick={buyHandler}
             >
               Buy
             </Button>
           </div>
         </Fade>
       </Modal>
+
+      <CustomSnackbar {...showSnackbar} onClose={snackbarClose} />
     </>
   );
 };
 
-export default CustomModal;
+export default BuyForm;
