@@ -28,7 +28,10 @@ export const metadata = {
         name: ticker[0],
         price: ticker[1],
         quantity: ticker[2],
-        time: moment(ticker[3], "YYYY-MM-DD HH:mm:ss").fromNow(),
+        time:
+          ticker[3] === "now"
+            ? "now"
+            : moment(ticker[3], "YYYY-MM-DD HH:mm:ss").fromNow(),
       };
     });
   },

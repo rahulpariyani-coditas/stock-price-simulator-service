@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import CustomTable from "../../components/CustomTable";
 import { metadata } from "./constants";
 import "./StocksListing.css";
-import { simulatorService } from "../../utils/simulatorService";
 import BuyForm from "../../components/BuyForm";
 import CustomSnackbar from "../../components/CustomSnackbar";
+// eslint-disable-next-line
+import { simulatorService } from "../../utils/simulatorService";
 
 const StocksListing = () => {
   const [tickersArray, setTickersArray] = useState([]);
@@ -16,14 +18,12 @@ const StocksListing = () => {
     message: "",
   });
 
+  const getNewTicker = useSelector((state) => state.tickerState);
+
   useEffect(() => {
-    setInterval(() => {
-      const newTickerArray = simulatorService(tickersArray);
-      const tableFormatData = metadata.getTableFormatData(newTickerArray);
-      setTickersArray(tableFormatData);
-    }, 5000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const tableFormatData = metadata.getTableFormatData(getNewTicker);
+    setTickersArray(tableFormatData);
+  }, [getNewTicker]);
 
   const modalHandleClose = () => setShowOrderForm(false);
   const snackbarClose = () =>
