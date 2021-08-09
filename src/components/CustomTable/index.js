@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     cursor: "default",
   },
   tableCell: {
-    cursor: "default",
+    cursor: "pointer",
   },
 });
 
