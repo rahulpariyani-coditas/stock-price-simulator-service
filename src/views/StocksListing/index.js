@@ -22,6 +22,7 @@ const StocksListing = () => {
       const tableFormatData = metadata.getTableFormatData(newTickerArray);
       setTickersArray(tableFormatData);
     }, 5000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const modalHandleClose = () => setShowOrderForm(false);

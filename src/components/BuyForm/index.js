@@ -70,7 +70,7 @@ const BuyForm = (props) => {
         <Fade in={props.open}>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">Order Form: </h2>
-            <small>{props.selectedCurrentPrice?.price} </small>
+            <small>current price: {props.selectedCurrentPrice?.price} </small>
             <Label title="Ticker :"> {props.selectedTicker?.name}</Label>
             <Label title="Price :">
               {`${props.selectedTicker?.price} USD`}
